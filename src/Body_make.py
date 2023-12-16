@@ -8,6 +8,7 @@ def modify_calendar_url(url, new_start_time):
 
     new_start_datetime = datetime.datetime.strptime(new_start_time, "%Y%m%dT%H%M%S")
 
+    # 45分後を終了時刻とする
     new_end_datetime = new_start_datetime + datetime.timedelta(minutes=45)
 
     new_end_time = new_end_datetime.strftime("%Y%m%dT%H%M%S")
@@ -17,3 +18,4 @@ def modify_calendar_url(url, new_start_time):
 
     return new_url
 
+def
