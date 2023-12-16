@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Review Notification</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+  <h1>Hello, {{me.login}} !</h1>
+  <button id="sendMailButton">Send Mail</button>
+  <div>{{me}}</div>
+  <h2>slots</h2>
+  <div>{{slots}}</div>
+  <h2>All scale_teams</h2>
+  <div>{{scale_teams}}</div>
+  <h2>As Reviewee</h2>
+  <div>{{corrected}}</div>
+  <h2>As Reviewer</h2>
+  <div>{{corrector}}</div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('sendMailButton').addEventListener('click', function () {
+        this.classList.add('loading');
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/send_mail', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+              console.log(xhr.responseText);
+            } else {
+              console.error('Error: ' + xhr.status);
+            }
+            document.getElementById('sendMailButton').classList.remove('loading');
+          }
+        };
+        xhr.send();
+      });
+    });
+  </script>
+
+</body>
+
+</html>

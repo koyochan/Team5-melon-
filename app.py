@@ -1,5 +1,6 @@
-from flask import Flask, request, redirect, session, render_template
+from flask import Flask, request, redirect, session, render_template, jsonify
 import requests
+from send_mail import send_mail
 from dotenv import load_dotenv
 import os
 load_dotenv()
@@ -15,12 +16,12 @@ TOKEN_URL = 'https://api.intra.42.fr/oauth/token'
 
 @app.route('/')
 def home():
-  return render_template( "index.html" )
+    return render_template( "index.html" )
 @app.route('/auth')
 def auth():
     return redirect(
         f"{AUTHORIZE_URL}?client_id={CLIENT_ID}&redirect_uri={REDIRECT_URI}"
-        f"&response_type=code&scope=public&state=random_state_string"
+        f"&response_type=code&scope=public projects&state=random_state_string"
     )
 
 @app.route('/callback')
@@ -45,15 +46,22 @@ def callback():
 @app.route('/profile')
 def profile():
     headers = {'Authorization': f"Bearer {session.get('access_token')}"}
-    response = requests.get('https://api.intra.42.fr/v2/me/scale_teams/as_corrected', headers=headers)
-    return response.json()
+    me = requests.get('https://api.intra.42.fr/v2/me', headers=headers)
+    slots = requests.get('https://api.intra.42.fr/v2/me/slots', headers=headers)
+    scale_teams = requests.get('https://api.intra.42.fr/v2/me/scale_teams', headers=headers)
+    corrected = requests.get('https://api.intra.42.fr/v2/me/scale_teams/as_corrected', headers=headers)
+    corrector = requests.get('https://api.intra.42.fr/v2/me/scale_teams/as_corrector', headers=headers)
+    send_mail(slots.json(), scale_teams.json(), me.json())
+    return render_template( "profile.html", corrected=corrected.json(), corrector=corrector.json(),scale_teams=scale_teams.json(), slots=slots.json(), me=me.json())
 
-@app.route('/logout')
-def logout():
-    # Clear the session
-    session.clear()
-    # Redirect to home page or a different page
-    return redirect('/')
+@app.route('/send_mail', methods=['POST'])
+def send():
+    headers = {'Authorization': f"Bearer {session.get('access_token')}"}
+    me = requests.get('https://api.intra.42.fr/v2/me', headers=headers)
+    slots = requests.get('https://api.intra.42.fr/v2/me/slots', headers=headers)
+    scale_teams = requests.get('https://api.intra.42.fr/v2/me/scale_teams', headers=headers)
+    send_mail(slots.json(), scale_teams.json(), me.json())
+    return jsonify({"message": "Email sent successfully"}), 200
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

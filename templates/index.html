@@ -4,13 +4,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Review Flask</title>
+  <title>Review Notification</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
-  <h1>Review Flask</h1>
-  <a href="/auth">Authorize</a>
-  <a href="/logout">logout</a>
+  <h1>Review Notification</h1>
+  <button onclick="startAuthProcess()">Authorize</button>
+  <div id="loadingScreen"
+    style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(255,255,255,0.8); text-align:center; padding-top:20%;">
+    <p class="loading">Loading, please wait...</p>
+  </div>
+  <script>
+    function startAuthProcess() {
+      document.getElementById('loadingScreen').style.display = 'block';
+      window.location.href = '/auth';
+    }
+  </script>
 </body>
 
 </html>
