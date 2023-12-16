@@ -10,6 +10,12 @@ from Body_make import modify_calendar_url
 GMAIL_ADDRESS = 'kkobayashi12356@gmail.com'   # Gmailアドレス 
 APP_PASSWORD = 'musl szie muey zien'  # アプリパスワード
 
+# data整形
+
+
+# data整形(project名)
+
+
 url = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=レビュー&details=&dates=20231112T140000/20231112T150000"
 new_start_time = "22000101T010000"
 modified_url = modify_calendar_url(url, new_start_time)
