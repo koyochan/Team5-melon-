@@ -3,11 +3,15 @@ import smtplib
 from email.mime.text import MIMEText
 from Body_make import modify_calendar_url
 
+from dotenv import load_dotenv
+import os
+load_dotenv()
+
 def send_mail(slots, scales, me):
     to_email = me['email']
     print(to_email)
-    GMAIL_ADDRESS = 'kkobayashi12356@gmail.com'   # Gmailアドレス
-    APP_PASSWORD = 'musl szie muey zien'  # アプリパスワード
+    GMAIL_ADDRESS = os.getenv('GMAIL_ADDRESS')
+    APP_PASSWORD = os.getenv('APP_PASSWORD')
 
     url = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=レビュー&details=&dates=20231112T140000/20231112T150000"
     for scale in scales:
