@@ -35,3 +35,17 @@ def date_format(iso_datetime):
     formatted_japan_datetime = japan_datetime.strftime("%Y%m%d%H%M")
 
     return formatted_japan_datetime
+
+
+def process_data(sample_data):
+    extracted_project_names = []
+    for item in sample_data:
+        project_gitlab_path = item.get('team', {}).get('project_gitlab_path', '')
+        if project_gitlab_path:
+            project_name = project_gitlab_path.split('/')[-1]
+            extracted_project_names.append(project_name)
+
+    # ここで他の処理を追加 (例: modify_calendar_url, date_formatなど)
+    # 例: URL変更や日付フォーマット処理など
+
+    return extracted_project_names
