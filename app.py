@@ -10,6 +10,8 @@ app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 CLIENT_ID = os.getenv('CLIENT_ID')
 CLIENT_SECRET = os.getenv('CLIENT_SECRET')
+LINE_ACCOUNT_ID = os.getenv('LINE_ACCOUNT_ID')
+LINE_CHANNEL_ACCESS_TOKEN = os.getenv('LINE_CHANNEL_ACCESS_TOKEN')
 REDIRECT_URI = 'http://127.0.0.1:5000/callback'
 AUTHORIZE_URL = 'https://api.intra.42.fr/oauth/authorize'
 TOKEN_URL = 'https://api.intra.42.fr/oauth/token'
@@ -47,12 +49,13 @@ def callback():
 def profile():
     headers = {'Authorization': f"Bearer {session.get('access_token')}"}
     me = requests.get('https://api.intra.42.fr/v2/me', headers=headers)
-    slots = requests.get('https://api.intra.42.fr/v2/me/slots', headers=headers)
-    scale_teams = requests.get('https://api.intra.42.fr/v2/me/scale_teams', headers=headers)
-    corrected = requests.get('https://api.intra.42.fr/v2/me/scale_teams/as_corrected', headers=headers)
-    corrector = requests.get('https://api.intra.42.fr/v2/me/scale_teams/as_corrector', headers=headers)
-    send_mail(slots.json(), scale_teams.json(), me.json())
-    return render_template( "profile.html", corrected=corrected.json(), corrector=corrector.json(),scale_teams=scale_teams.json(), slots=slots.json(), me=me.json())
+    # slots = requests.get('https://api.intra.42.fr/v2/me/slots', headers=headers)
+    # scale_teams = requests.get('https://api.intra.42.fr/v2/me/scale_teams', headers=headers)
+    # corrected = requests.get('https://api.intra.42.fr/v2/me/scale_teams/as_corrected', headers=headers)
+    # corrector = requests.get('https://api.intra.42.fr/v2/me/scale_teams/as_corrector', headers=headers)
+    # send_mail(slots.json(), scale_teams.json(), me.json())
+    # return render_template( "profile.html", corrected=corrected.json(), corrector=corrector.json(),scale_teams=scale_teams.json(), slots=slots.json(), me=me.json())
+    return render_template( "profile.html", me=me.json())
 
 @app.route('/send_mail', methods=['POST'])
 def send():
@@ -63,6 +66,27 @@ def send():
     send_mail(slots.json(), scale_teams.json(), me.json())
     return jsonify({"message": "Email sent successfully"}), 200
 
+
+@app.route('/send_line', methods=['POST'])
+def send_line_message():
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {LINE_CHANNEL_ACCESS_TOKEN}'
+    }
+    data = {
+        "to": LINE_ACCOUNT_ID,
+        # "to": request.json.get("user_id"),
+        "messages": [
+            {
+                "type": "text",
+                "text": "Hello, world! Hello Line!"
+                # "text": request.json.get("message")
+            }
+        ]
+    }
+
+    response = requests.post('https://api.line.me/v2/bot/message/push', headers=headers, json=data)
+    return response.text
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
-    # app.run(debug=True, port=8888)

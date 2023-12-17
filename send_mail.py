@@ -1,16 +1,35 @@
+from Body_make import modify_calendar_url, date_format, process_data
+import smtplib
+from email.mime.text import MIMEText
+from Body_make import modify_calendar_url
+
 def send_mail(slots, scales, me):
     to_email = me['email']
     print(to_email)
-    
-    # scalesからプロジェクト名を抽出
-    project_names = []
-    for scale in scales:
-        if 'team' in scale and 'project_gitlab_path' in scale['team']:
-            project_path = scale['team']['project_gitlab_path']
-            project_name = project_path.split('/')[-1]
-            project_names.append(project_name)
+    GMAIL_ADDRESS = 'kkobayashi12356@gmail.com'   # Gmailアドレス 
+    APP_PASSWORD = 'musl szie muey zien'  # アプリパスワード
 
-    # プロジェクト名のリストを確認するための出力（デバッグ用）
-    print("プロジェクト名:", project_names)
-    
-    # TODO: ここにメール送信処理を実装
+    url = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=レビュー&details=&dates=20231112T140000/20231112T150000"
+    for scale in scales:
+        if 'begin_at' in scale:
+            new_start_time = date_format(scale['begin_at'])
+            modified_url = modify_calendar_url(url, new_start_time)
+            print("Modified URL:", modified_url)
+
+            TO_MAIL = 'kkobayashi12356@gmail.com' # 送信先メールアドレス（ここも書き換え必須）
+            MAIL_TITLE = 'メールタイトル'
+            MAIL_BODY =  f'''メール本文（１行目）{modified_url}
+            メール本文の続き...'''
+
+            # メールの設定処理
+            msg = MIMEText(MAIL_BODY)    # メール本文（日本語が含まれるときは MIMEText必須）
+            msg['Subject'] = MAIL_TITLE  # メールタイトル
+            msg['From'] = GMAIL_ADDRESS  # 送信元メールアドレス
+            msg['To'] = TO_MAIL          # 送信先メールアドレス
+
+            # メールの送信処理
+            smtp = smtplib.SMTP('smtp.gmail.com', 587)
+            smtp.starttls()
+            smtp.login(GMAIL_ADDRESS, APP_PASSWORD)
+            smtp.send_message(msg)
+            smtp.close()
