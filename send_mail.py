@@ -13,7 +13,6 @@ def send_mail(slots, scales, me):
     MAIL_BODY = "メール本文（１行目）\n"
 
     # scales内のデータをメール本文に組み込む
-    url = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=レビュー&details=&dates=20231112T140000/20231112T150000"
     for scale in scales:
         
         if 'team' in scale and 'project_gitlab_path' in scale['team']:
