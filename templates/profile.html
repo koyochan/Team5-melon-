@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 
 <head>
   <meta charset="UTF-8">
@@ -10,16 +10,21 @@
 
 <body>
   <h1>Hello, {{me.login}} !</h1>
-  <button id="sendMailButton">Send Mail</button>
-  <div>{{me}}</div>
-  <h2>slots</h2>
+  <h2>メールで通知を受け取る</h2>
+  <button id="sendMailButton">このメールで通知を受け取る</button>
+  <h2>LINEで通知を受け取る</h2>
+  <p>のに下記QRコードよりLINE追加してください</p>
+  <div><img src="{{ url_for('static', filename='line.png') }}" alt=""></div>
+  <button id="sendLineButton">Send Test Line Message</button>
+  <!-- <div>{{me}}</div> -->
+  <!-- <h2>slots</h2>
   <div>{{slots}}</div>
   <h2>All scale_teams</h2>
   <div>{{scale_teams}}</div>
   <h2>As Reviewee</h2>
   <div>{{corrected}}</div>
   <h2>As Reviewer</h2>
-  <div>{{corrector}}</div>
+  <div>{{corrector}}</div> -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       document.getElementById('sendMailButton').addEventListener('click', function () {
@@ -35,6 +40,23 @@
               console.error('Error: ' + xhr.status);
             }
             document.getElementById('sendMailButton').classList.remove('loading');
+          }
+        };
+        xhr.send();
+      });
+      document.getElementById('sendLineButton').addEventListener('click', function () {
+        this.classList.add('loading');
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/send_line', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+              console.log(xhr.responseText);
+            } else {
+              console.error('Error: ' + xhr.status);
+            }
+            document.getElementById('sendLineButton').classList.remove('loading');
           }
         };
         xhr.send();
