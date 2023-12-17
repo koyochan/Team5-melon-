@@ -9,6 +9,8 @@ python3 -m venv venv
 pip install Flask
 pip install python-dotenv
 pip install requests
+pip install pytz
+pip install python-dateutil
 
 python3 app.py
 ```
@@ -19,8 +21,3 @@ python3 app.py
 python3 app.py
 ```
 
-# Body_make.py
-```shell
-pip install pytz
-pip install python-dateutil
-```

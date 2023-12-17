@@ -4,12 +4,12 @@ import urllib.parse
 import pytz
 
 def modify_calendar_url(url, new_start_time):
-    # パスワードの解析
+    # URLの解析
     parsed_url = urllib.parse.urlparse(url)
     query_params = urllib.parse.parse_qs(parsed_url.query)
     original_dates = query_params['dates'][0]  # この行を追加
 
-    new_start_datetime = datetime.datetime.strptime(new_start_time, "%Y%m%dT%H%M%S")
+    new_start_datetime = datetime.datetime.strptime(new_start_time, "%Y%m%d%H%M")
 
     # 45分後を終了時刻とする
     new_end_datetime = new_start_datetime + datetime.timedelta(minutes=45)

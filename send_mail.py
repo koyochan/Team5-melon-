@@ -6,13 +6,15 @@ from Body_make import modify_calendar_url
 def send_mail(slots, scales, me):
     to_email = me['email']
     print(to_email)
-    GMAIL_ADDRESS = 'kkobayashi12356@gmail.com'   # Gmailアドレス 
+    GMAIL_ADDRESS = 'kkobayashi12356@gmail.com'   # Gmailアドレス
     APP_PASSWORD = 'musl szie muey zien'  # アプリパスワード
 
     url = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=レビュー&details=&dates=20231112T140000/20231112T150000"
     for scale in scales:
         if 'begin_at' in scale:
+            print("begin_at:", scale['begin_at'])
             new_start_time = date_format(scale['begin_at'])
+            print("new_start_time:", new_start_time)
             modified_url = modify_calendar_url(url, new_start_time)
             print("Modified URL:", modified_url)
 
