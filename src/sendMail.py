@@ -16,6 +16,19 @@ print(date_format("2023-12-17T07:45:00.000Z"))
  
 # data整形(project名)
 
+# Now that we understand the structure, let's extract the 'project_gitlab_path' and get the last part of the path
+
+extracted_project_names = []
+
+for item in sample_data:
+    project_gitlab_path = item.get('team', {}).get('project_gitlab_path', '')
+    if project_gitlab_path:
+        # Split the path and get the last part
+        project_name = project_gitlab_path.split('/')[-1]
+        extracted_project_names.append(project_name)
+
+extracted_project_names
+
 
 url = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=レビュー&details=&dates=20231112T140000/20231112T150000"
 new_start_time = "22000101T010000"
