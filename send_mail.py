@@ -1,8 +1,8 @@
 def send_mail(slots, scales, me):
     to_email = me['email']
     print(to_email)
-    GMAIL_ADDRESS = 'kkobayashi12356@gmail.com'   # Gmailアドレス
-    APP_PASSWORD = 'musl szie muey zien'  # アプリパスワード
+    GMAIL_ADDRESS = os.getenv('GMAIL_ADDRESS')
+    APP_PASSWORD = os.getenv('APP_PASSWORD')
 
     # メール本文の初期化
     MAIL_BODY = "メール本文（１行目）\n"
