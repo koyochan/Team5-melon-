@@ -3,23 +3,21 @@ from datetime import timedelta
 import urllib.parse
 import pytz
 
-def modify_calendar_url(url, new_start_time):
-    # パスワードの解析
-    parsed_url = urllib.parse.urlparse(url)
-    query_params = urllib.parse.parse_qs(parsed_url.query)
-    original_dates = query_params['dates'][0]  # この行を追加
+def create_calendar_url(project_name, year, month, day, hour, minute):
+    # 開始日時を設定
+    start_datetime = datetime(year, month, day, hour, minute)
 
-    new_start_datetime = datetime.datetime.strptime(new_start_time, "%Y%m%dT%H%M%S")
+    # 45分後の終了日時を計算
+    end_datetime = start_datetime + timedelta(minutes=45)
 
-    # 45分後を終了時刻とする
-    new_end_datetime = new_start_datetime + datetime.timedelta(minutes=45)
+    # 日付と時刻をフォーマット
+    start_str = start_datetime.strftime("%Y%m%dT%H%M00")
+    end_str = end_datetime.strftime("%Y%m%dT%H%M00")
 
-    new_end_time = new_end_datetime.strftime("%Y%m%dT%H%M%S")
-
-    new_dates = f"{new_start_time}/{new_end_time}"
-    new_url = url.replace(original_dates, new_dates)
-
-    return new_url
+    # URLを生成
+    url = f"https://calendar.google.com/calendar/render?action=TEMPLATE&text={project_name}&details=&dates={start_str}/{end_str}"
+    return url
+    
 
 from dateutil import parser
 
@@ -31,10 +29,14 @@ def date_format(iso_datetime):
     japan_timezone = pytz.timezone('Asia/Tokyo')
     japan_datetime = utc_datetime.astimezone(japan_timezone)
 
-    # 日本時間を指定のフォーマットに変換
-    formatted_japan_datetime = japan_datetime.strftime("%Y%m%d%H%M")
+    # 日本時間を年、月、日、時、分に分割
+    year = japan_datetime.year
+    month = japan_datetime.month
+    day = japan_datetime.day
+    hour = japan_datetime.hour
+    minute = japan_datetime.minute
 
-    return formatted_japan_datetime
+    return year, month, day, hour, minute
 
 
 def process_data(sample_data):
