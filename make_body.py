@@ -13,7 +13,7 @@ def create_google_calendar_link(begin_at, name):
     return url
 
 def make_body(slots, scales, me):
-    body = "レビュー予約が更新されました。\n"
+    body = "レビュー予約が更新されました。\n\n"
     for scale in scales:
         if isinstance(scale, dict) and 'begin_at' in scale:
             if 'team' in scale and 'project_gitlab_path' in scale['team']:

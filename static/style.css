@@ -7,7 +7,8 @@
     transform: rotate(360deg);
   }
 }
-.loading{
+
+.loading {
   pointer-events: none;
   background-color: #efefef;
   color: grey;
@@ -24,4 +25,43 @@
   animation: spin 1s ease-in-out infinite;
   -webkit-animation: spin 1s ease-in-out infinite;
   margin-left: 5px;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+button {
+  background-color: #000;
+  color: #fff;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 0.5em 2em;
+  cursor: pointer;
+}
+
+.box{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #efefef;
+  padding: 3rem 2rem;
+  width: 600px;
+  margin-bottom: 2rem;
+  gap: 1em;
+}
+
+h3{
+  background-color: #fff;
+  padding: 1em 2em;
+  margin: 0;
 }
