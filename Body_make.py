@@ -3,22 +3,12 @@ from datetime import timedelta
 import urllib.parse
 import pytz
 
-<<<<<<< HEAD
 def create_calendar_url(project_name, year, month, day, hour, minute):
     # 開始日時を設定
     start_datetime = datetime(year, month, day, hour, minute)
 
     # 45分後の終了日時を計算
     end_datetime = start_datetime + timedelta(minutes=45)
-=======
-def modify_calendar_url(url, new_start_time):
-    # URLの解析
-    parsed_url = urllib.parse.urlparse(url)
-    query_params = urllib.parse.parse_qs(parsed_url.query)
-    original_dates = query_params['dates'][0]  # この行を追加
-
-    new_start_datetime = datetime.datetime.strptime(new_start_time, "%Y%m%d%H%M")
->>>>>>> 8cfa5715bd14f19544e329d9810d15b572b28ba4
 
     # 日付と時刻をフォーマット
     start_str = start_datetime.strftime("%Y%m%dT%H%M00")
