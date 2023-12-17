@@ -13,7 +13,12 @@ def send_mail(slots, scales, me):
     MAIL_BODY = ""
 
     # scales内のデータをメール本文に組み込む
-    # ... 既存のコード ...
+    for scale in scales:
+        
+        if 'team' in scale and 'project_gitlab_path' in scale['team']:
+            project_path = scale['team']['project_gitlab_path']
+            project_name = project_path.split('/')[-1]
+            MAIL_BODY += f"プロジェクト名: {project_name}\n"
 
     # メールの内容が空でない場合のみ、メール送信処理を実行
     if MAIL_BODY:
@@ -33,4 +38,4 @@ def send_mail(slots, scales, me):
         smtp.send_message(msg)
         smtp.close()
         print("メールを送信しました。")
-		
+
