@@ -1,10 +1,13 @@
 import datetime
+from datetime import timedelta
 import urllib.parse
+import pytz
 
 def modify_calendar_url(url, new_start_time):
     # パスワードの解析
     parsed_url = urllib.parse.urlparse(url)
     query_params = urllib.parse.parse_qs(parsed_url.query)
+    original_dates = query_params['dates'][0]  # この行を追加
 
     new_start_datetime = datetime.datetime.strptime(new_start_time, "%Y%m%dT%H%M%S")
 
@@ -18,4 +21,17 @@ def modify_calendar_url(url, new_start_time):
 
     return new_url
 
-def
+from dateutil import parser
+
+def date_format(iso_datetime):
+    # dateutil.parserを使用してUTCのdatetimeオブジェクトに変換
+    utc_datetime = parser.parse(iso_datetime)
+
+    # 日本時間に変換（UTC+9時間）
+    japan_timezone = pytz.timezone('Asia/Tokyo')
+    japan_datetime = utc_datetime.astimezone(japan_timezone)
+
+    # 日本時間を指定のフォーマットに変換
+    formatted_japan_datetime = japan_datetime.strftime("%Y%m%d%H%M")
+
+    return formatted_japan_datetime

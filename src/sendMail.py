@@ -12,7 +12,8 @@ APP_PASSWORD = 'musl szie muey zien'  # アプリパスワード
 
 # data整形
 
-
+print(date_format("2023-12-17T07:45:00.000Z"))
+ 
 # data整形(project名)
 
 
