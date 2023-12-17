@@ -1,7 +1,7 @@
 import os
 import smtplib
 from email.mime.text import MIMEText
-from Body_make import modify_calendar_url, date_format
+from Body_make import create_calendar_url, date_format
 
 def send_mail(slots, scales, me):
     to_email = me['email']
