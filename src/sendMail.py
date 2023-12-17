@@ -12,8 +12,9 @@ APP_PASSWORD = 'musl szie muey zien'  # アプリパスワード
 
 # data整形
 
+print(date_format("2023-12-17T07:45:00.000Z"))
+ 
 
-# data整形(project名)
 
 
 url = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=レビュー&details=&dates=20231112T140000/20231112T150000"
