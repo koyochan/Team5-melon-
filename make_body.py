@@ -16,7 +16,7 @@ def make_body(slots, scales, me):
     for scale in scales:
         if isinstance(scale, dict) and 'begin_at' in scale:
             if 'team' in scale and 'project_gitlab_path' in scale['team']:
-                gitlab_path = scale['team']['project_gitlab_path']
+                gitlab_path = scale['team']['project_gitlab_path'].split('/')[-1]
             else:
                 gitlab_path = "unknown"
 
@@ -29,8 +29,8 @@ def make_body(slots, scales, me):
                 calendar_link = "unavailable"
 
 
-            body += f"- {formatted_timestamp}~\n課題名: {gitlab_path}\nGoogleカレンダーに追加: {calendar_link}\n"
+            body += f"- {formatted_timestamp}~\n課題名: {gitlab_path}\nGoogleカレンダーに追加: {calendar_link}\n\n"
         else:
-            body += "- unknown data\n"
+            body += "- unknown data\n\n"
 
     return body

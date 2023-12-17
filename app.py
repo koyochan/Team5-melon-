@@ -50,13 +50,13 @@ def callback():
 def profile():
     headers = {'Authorization': f"Bearer {session.get('access_token')}"}
     me = requests.get('https://api.intra.42.fr/v2/me', headers=headers)
-    # slots = requests.get('https://api.intra.42.fr/v2/me/slots', headers=headers)
-    # scale_teams = requests.get('https://api.intra.42.fr/v2/me/scale_teams', headers=headers)
-    # corrected = requests.get('https://api.intra.42.fr/v2/me/scale_teams/as_corrected', headers=headers)
-    # corrector = requests.get('https://api.intra.42.fr/v2/me/scale_teams/as_corrector', headers=headers)
-    # send_mail(slots.json(), scale_teams.json(), me.json())
-    # return render_template( "profile.html", corrected=corrected.json(), corrector=corrector.json(),scale_teams=scale_teams.json(), slots=slots.json(), me=me.json())
-    return render_template( "profile.html", me=me.json())
+    slots = requests.get('https://api.intra.42.fr/v2/me/slots', headers=headers)
+    scale_teams = requests.get('https://api.intra.42.fr/v2/me/scale_teams', headers=headers)
+    corrected = requests.get('https://api.intra.42.fr/v2/me/scale_teams/as_corrected', headers=headers)
+    corrector = requests.get('https://api.intra.42.fr/v2/me/scale_teams/as_corrector', headers=headers)
+    send_mail(slots.json(), scale_teams.json(), me.json())
+    return render_template( "profile.html", corrected=corrected.json(), corrector=corrector.json(),scale_teams=scale_teams.json(), slots=slots.json(), me=me.json())
+    # return render_template( "profile.html", me=me.json())
 
 @app.route('/send_mail', methods=['POST'])
 def send():

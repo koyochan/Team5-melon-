@@ -14,16 +14,17 @@ def send_mail(slots, scales, me):
 
     # scales内のデータをメール本文に組み込む
     for scale in scales:
-        
+
         if 'team' in scale and 'project_gitlab_path' in scale['team']:
             project_path = scale['team']['project_gitlab_path']
             project_name = project_path.split('/')[-1]
             MAIL_BODY += f"プロジェクト名: {project_name}\n"
 
-			if 'begin_at' in scale:
+        if 'begin_at' in scale:
             new_start_time = date_format(scale['begin_at'])
-            modified_url = modify_calendar_url(url, new_start_time)
-            MAIL_BODY += f"{new_start_time}: {modified_url}\n"
+            # TODO
+            # modified_url = create_calendar_url(project_name, year, month, day, hour, minute)
+            # MAIL_BODY += f"{new_start_time}: {modified_url}\n"
 
     # メールの内容が空でない場合のみ、メール送信処理を実行
     if MAIL_BODY:
