@@ -1,3 +1,8 @@
+import os
+import smtplib
+from email.mime.text import MIMEText
+from Body_make import modify_calendar_url, date_format
+
 def send_mail(slots, scales, me):
     to_email = me['email']
     print(to_email)
@@ -20,7 +25,7 @@ def send_mail(slots, scales, me):
             project_name = project_path.split('/')[-1]
             MAIL_BODY += f"プロジェクト名: {project_name}\n"
 
-    TO_MAIL = 'kkobayashi12356@gmail.com' # 送信先メールアドレス（ここも書き換え必須）
+    TO_MAIL = GMAIL_ADDRESS # 送信先メールアドレス（ここも書き換え必須）
     MAIL_TITLE = 'メールタイトル'
 
     # メールの設定処理
