@@ -20,6 +20,11 @@ def send_mail(slots, scales, me):
             project_name = project_path.split('/')[-1]
             MAIL_BODY += f"プロジェクト名: {project_name}\n"
 
+			if 'begin_at' in scale:
+            new_start_time = date_format(scale['begin_at'])
+            modified_url = modify_calendar_url(url, new_start_time)
+            MAIL_BODY += f"{new_start_time}: {modified_url}\n"
+
     # メールの内容が空でない場合のみ、メール送信処理を実行
     if MAIL_BODY:
         TO_MAIL = GMAIL_ADDRESS  # 送信先メールアドレス
