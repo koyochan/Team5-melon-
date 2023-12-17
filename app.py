@@ -1,6 +1,7 @@
 from flask import Flask, request, redirect, session, render_template, jsonify
 import requests
 from send_mail import send_mail
+from make_body import make_body
 from dotenv import load_dotenv
 import os
 load_dotenv()
@@ -69,23 +70,26 @@ def send():
 
 @app.route('/send_line', methods=['POST'])
 def send_line_message():
-    headers = {
+    headers = {'Authorization': f"Bearer {session.get('access_token')}"}
+    me = requests.get('https://api.intra.42.fr/v2/me', headers=headers)
+    slots = requests.get('https://api.intra.42.fr/v2/me/slots', headers=headers)
+    scale_teams = requests.get('https://api.intra.42.fr/v2/me/scale_teams', headers=headers)
+    line_headers = {
         'Content-Type': 'application/json',
         'Authorization': f'Bearer {LINE_CHANNEL_ACCESS_TOKEN}'
     }
-    data = {
+    data_line = {
         "to": LINE_ACCOUNT_ID,
         # "to": request.json.get("user_id"),
         "messages": [
             {
                 "type": "text",
-                "text": "Hello, world! Hello Line!"
+                "text": make_body(slots.json(), scale_teams.json(), me.json())
                 # "text": request.json.get("message")
             }
         ]
     }
-
-    response = requests.post('https://api.line.me/v2/bot/message/push', headers=headers, json=data)
+    response = requests.post('https://api.line.me/v2/bot/message/push', headers=line_headers, json=data_line)
     return response.text
 
 if __name__ == '__main__':
