@@ -18,3 +18,9 @@ python3 app.py
 . venv/bin/activate
 python3 app.py
 ```
+
+# Body_make.py
+```shell
+pip install pytz
+pip install python-dateutil
+```
