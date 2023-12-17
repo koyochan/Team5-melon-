@@ -15,16 +15,16 @@ def send_mail(slots, scales, me):
     # scales内のデータをメール本文に組み込む
     url = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=レビュー&details=&dates=20231112T140000/20231112T150000"
     for scale in scales:
-        if 'begin_at' in scale:
-            new_start_time = date_format(scale['begin_at'])
-            modified_url = modify_calendar_url(url, new_start_time)
-            MAIL_BODY += f"{new_start_time}: {modified_url}\n"
         
         if 'team' in scale and 'project_gitlab_path' in scale['team']:
             project_path = scale['team']['project_gitlab_path']
             project_name = project_path.split('/')[-1]
             MAIL_BODY += f"プロジェクト名: {project_name}\n"
 
+        if 'begin_at' in scale:
+            new_start_time = date_format(scale['begin_at'])
+            modified_url = create_calendar_url(url, new_start_time)
+            MAIL_BODY += f"{new_start_time}: {modified_url}\n"
     TO_MAIL = GMAIL_ADDRESS # 送信先メールアドレス（ここも書き換え必須）
     MAIL_TITLE = 'メールタイトル'
 
